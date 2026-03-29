@@ -10,48 +10,81 @@
         th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
         th { background: #e9ecef; }
         .favorite { color: gold; font-weight: bold; }
+        .form { text-align: center; margin: 20px 0; }
     </style>
 </head>
 <body>
     <h1>My Game Library</h1>
     <p style="text-align: center;">
         <a href="/dashboard">← Back to Dashboard</a> | 
-        <a href="/add_game">Add New Game</a>
+        <a href="/add_game">Add New Game</a> | 
+        <a href="/recommendations">🤖 AI Recommendations</a>
     </p>
 
+    <!-- Search & Filter -->
+    <div class="form">
+        <form method="GET">
+            <input type="text" name="search" placeholder="Search title..." value="{{ search or '' }}">
+            <select name="status">
+                <option value="">All Status</option>
+                <option value="planned" {% if status=='planned' %}selected{% endif %}>Planned</option>
+                <option value="playing" {% if status=='playing' %}selected{% endif %}>Playing</option>
+                <option value="completed" {% if status=='completed' %}selected{% endif %}>Completed</option>
+                <option value="dropped" {% if status=='dropped' %}selected{% endif %}>Dropped</option>
+            </select>
+            <select name="genre">
+                <option value="">All Genres</option>
+                {% for g in genres %}
+                <option value="{{ g }}" {% if genre==g %}selected{% endif %}>{{ g }}</option>
+                {% endfor %}
+            </select>
+            <label><input type="checkbox" name="favorites" value="1" {% if favorites_only %}checked{% endif %}> Favorites only</label>
+            <button type="submit">Filter</button>
+            <a href="/library">Clear Filters</a>
+        </form>
+    </div>
+
     {% if games %}
-    <table border="1" cellpadding="8" style="width:100%; border-collapse:collapse; margin-top: 20px;">
+    <h2>⭐ Your Favorite Games</h2>
+    <table>
+        <tr><th>Title</th><th>Status</th><th>Hours</th><th>Completed</th><th>Notes</th><th>Actions</th></tr>
+        {% for game in games if game.is_favorite %}
         <tr>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Hours Played</th>
-            <th>Favorite</th>
-            <th>Notes</th>
-            <th>Actions</th>
+            <td>{{ game.title }}</td>
+            <td>{{ game.status | capitalize }}</td>
+            <td>{{ game.hours_played or 0 }}</td>
+            <td>{{ game.completion_date or '—' }}</td>
+            <td>{{ game.notes or 'No notes' }}</td>
+            <td><a href="/update_game/{{ game.user_game_id }}">Update</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>All Games</h2>
+    {% endif %}
+
+    <table border="1" cellpadding="8" style="width:100%; border-collapse:collapse;">
+        <tr>
+            <th>Title</th><th>Status</th><th>Hours Played</th><th>Completed On</th>
+            <th>Favorite</th><th>Notes</th><th>Actions</th>
         </tr>
         {% for game in games %}
         <tr>
             <td>{{ game.title }}</td>
             <td>{{ game.status | capitalize }}</td>
             <td>{{ game.hours_played or 0 }}</td>
+            <td>{{ game.completion_date or '—' }}</td>
             <td class="{% if game.is_favorite %}favorite{% endif %}">
                 {% if game.is_favorite %}★ Yes{% else %}No{% endif %}
             </td>
-            <td style="max-width: 300px; white-space: pre-wrap;">
-                {{ game.notes or 'No notes' }}
-            </td>
+            <td>{{ game.notes or 'No notes' }}</td>
             <td>
-                    <a href="/update_game/{{ game.user_game_id }}">Update Status</a> |
-                    <a href="/write_review/{{ game.game_id }}">Write Review</a> |
-                    <a href="/reviews/{{ game.game_id }}">View Reviews</a>
+                <a href="/update_game/{{ game.user_game_id }}">Update</a> |
+                <a href="/write_review/{{ game.game_id }}">Write Review</a> |
+                <a href="/reviews/{{ game.game_id }}">View Reviews</a>
             </td>
         </tr>
         {% endfor %}
     </table>
-    {% else %}
-    <p style="text-align: center; font-size: 18px;">
-        Your library is empty! <a href="/add_game">Add your first game now</a>.
-    </p>
-    {% endif %}
 </body>
 </html>

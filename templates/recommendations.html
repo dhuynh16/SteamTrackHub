@@ -1,0 +1,26 @@
+<DOCUMENT filename="recommendations.html">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>AI Recommendations - SteamTrack Hub</title>
+        <style> /* same style as others */ </style>
+    </head>
+    <body>
+        <h1>🤖 AI Game Recommendation Bot</h1>
+        <p>Based on the genres you play most, here are games you might love (that you don’t own yet):</p>
+    
+        {% if recommendations %}
+        <ul>
+            {% for r in recommendations %}
+            <li><strong>{{ r.title }}</strong> — {{ r.genre or 'Unknown genre' }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No new recommendations right now. Add more games to your library!</p>
+        {% endif %}
+    
+        <p><a href="/dashboard">← Back to Dashboard</a></p>
+    </body>
+    </html>
+    </DOCUMENT>

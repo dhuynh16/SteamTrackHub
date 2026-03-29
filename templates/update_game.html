@@ -10,8 +10,6 @@
         label { display: block; margin: 15px 0 5px; font-weight: bold; }
         select, input, textarea { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
         button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        button:hover { background: #218838; }
-        .back { text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -27,16 +25,24 @@
         </select>
 
         <label for="hours_played">Hours Played</label>
-        <input type="number" name="hours_played" id="hours_played" min="0" value="{{ game.hours_played or 0 }}">
+        <input type="number" name="hours_played" value="{{ game.hours_played or 0 }}">
 
-        <label for="notes">Notes</label>
-        <textarea name="notes" id="notes" rows="4">{{ game.notes or '' }}</textarea>
+        <label for="completion_date">Completion Date (if finished)</label>
+        <input type="date" name="completion_date" value="{{ game.completion_date or '' }}">
+
+        <label>
+            <input type="checkbox" name="is_favorite" {% if game.is_favorite %}checked{% endif %}>
+            ⭐ Mark as Favorite
+        </label>
+
+        <label for="notes">Personal Notes / Comments</label>
+        <textarea name="notes" rows="4">{{ game.notes or '' }}</textarea>
 
         <button type="submit">Save Changes</button>
     </form>
 
-    <div class="back">
+    <p style="text-align:center; margin-top:30px;">
         <a href="/library">← Back to Library</a>
-    </div>
+    </p>
 </body>
 </html>

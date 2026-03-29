@@ -2,20 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Reviews for {{ game_title }} - SteamTrack Hub</title>
+    <title>Reviews for {{ game_title }}</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 40px; margin: 0; }
+        body { font-family: Arial; background: #f4f4f4; padding: 40px; }
         h1 { color: #006400; text-align: center; }
-        .review { background: white; padding: 15px; margin: 15px 0; border-radius: 8px; box-shadow: 0 1px 5px rgba(0,0,0,0.1); }
-        .review h4 { margin: 0 0 5px; color: #333; }
+        .review { background: white; padding: 15px; margin: 15px 0; border-radius: 8px; }
+        .review h4 { margin: 0 0 5px; }
         .score { font-weight: bold; color: #28a745; }
-        .date { color: #6c757d; font-size: 14px; }
         .back { text-align: center; margin-top: 30px; }
     </style>
 </head>
 <body>
     <h1>Reviews for {{ game_title }}</h1>
-    <p style="text-align: center;">
+    <p class="back">
         <a href="/library">← Back to Library</a> | <a href="/dashboard">Back to Dashboard</a>
     </p>
 
@@ -28,9 +27,7 @@
         </div>
         {% endfor %}
     {% else %}
-        <p style="text-align: center; font-size: 18px;">
-            No approved reviews yet for this game. Be the first to write one!
-        </p>
+        <p style="text-align: center;">No approved reviews yet for this game.</p>
     {% endif %}
 </body>
 </html>

@@ -12,10 +12,21 @@
         .rank-1 { background: gold; color: #333; font-weight: bold; }
         .rank-2 { background: silver; }
         .rank-3 { background: #cd7f32; }
+        .current-user { 
+            background: #fffacd !important; 
+            font-weight: bold; 
+            font-size: 1.1em; 
+        }
     </style>
 </head>
 <body>
     <h1>Global Leaderboard</h1>
+    
+    <!-- Debug info (you can remove this line later) -->
+    <p style="text-align:center; color:#006400; font-weight:bold;">
+        You are logged in as: <span style="color:#d9534f;">{{ current_username or 'Unknown' }}</span>
+    </p>
+
     <p style="text-align: center;">
         <a href="/dashboard">← Back to Dashboard</a>
     </p>
@@ -28,17 +39,18 @@
             <th>Points</th>
         </tr>
         {% for player in leaderboard %}
-        <tr class="{% if loop.index == 1 %}rank-1{% elif loop.index == 2 %}rank-2{% elif loop.index == 3 %}rank-3{% endif %}">
+        <tr class="{% if loop.index == 1 %}rank-1{% elif loop.index == 2 %}rank-2{% elif loop.index == 3 %}rank-3{% elif player.username|trim|lower == current_username|trim|lower %}current-user{% endif %}">
             <td>#{{ loop.index }}</td>
-            <td>{{ player.username }}</td>
+            <td>
+                {{ player.username }}
+                {% if player.username|trim|lower == current_username|trim|lower %} <strong>(You)</strong>{% endif %}
+            </td>
             <td>{{ player.points }}</td>
         </tr>
         {% endfor %}
     </table>
     {% else %}
-    <p style="text-align: center; font-size: 18px;">
-        No players on the leaderboard yet. Earn points to climb the ranks!
-    </p>
+    <p style="text-align: center; font-size: 18px;">No players yet.</p>
     {% endif %}
 </body>
 </html>

@@ -8,8 +8,16 @@
         .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         h1 { color: #006400; text-align: center; }
         .nav { text-align: center; margin: 30px 0; font-size: 18px; }
-        .nav a { margin: 0 15px; color: #007bff; text-decoration: none; font-weight: bold; }
-        .nav a:hover { text-decoration: underline; }
+        .nav a {
+            margin: 0 12px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .nav a:hover {
+            background: #e9f5ff;
+            text-decoration: none;
+        }
         .admin-only { color: #d9534f; font-weight: bold; }
     </style>
 </head>
@@ -24,20 +32,23 @@
         <!-- Navigation Links to New Features -->
         <div class="nav">
             <a href="/my_challenges">My Challenges</a> |
-            <a href="/library">My Library</a> |
-            <a href="/add_game">Add New Game</a> |
+            <a href="/library">My Library</a> |                  <!-- already here, kept -->
             <a href="/challenges">Challenges</a> |
             <a href="/leaderboard">Leaderboard</a> |
+            <a href="/connect_steam">Connect Steam Account</a> |  <!-- ← new / moved here -->
             <a href="/logout">Logout</a>
+            <a href="/recommendations">🤖 AI Game Recommendation Bot</a> |
             {% if session.get('role') == 'admin' %}
                 <span style="color: #d9534f; font-weight: bold;">
-        | <a href="/moderate_reviews">Moderate Reviews (Admin)</a></span>
+                    | <a href="/moderate_reviews">Moderate Reviews (Admin)</a>
+                </span>
             {% endif %}
-            <p style="text-align: center; margin-top: 30px;">
-                <a href="/connect_steam" style="background: #1b2838; color: white; padding: 12px 24px; border-radius: 4px; text-decoration: none; display: inline-block;">
-                    Connect Steam Account
-                </a>
-            </p>
+        </div>
+        
+        <!-- Optional: small helper text if you want to keep add-game discoverable -->
+        <p style="text-align: center; margin-top: 20px; font-size: 0.95em; color: #555;">
+            Want to add a game manually? Go to <a href="/add_game">Add New Game</a> or connect Steam to import your library.
+        </p>
         </div>
 
         <!-- Placeholder for future content -->
